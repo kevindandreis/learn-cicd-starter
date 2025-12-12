@@ -34,16 +34,15 @@ jobs:
       # 3) Build and push Docker image to Artifact Registry
       - name: Build and push Docker image
         run: |
-          # Get the current commit SHA for tagging
-          IMAGE_TAG=${GITHUB_SHA::8}
-          # Replace with your actual project ID and repository name
-          gcloud builds submit --tag us-central1-docker.pkg.dev/notely-480916/notely-ar-repo/notely-img:1.0 .
+          # Build and push the Docker image with the latest tag
+          gcloud builds submit --tag us-central1-docker.pkg.dev/notely-480916/notely-ar-repo/notely-img:latest .
 
       # 4) Deploy to Cloud Run
       - name: Deploy to Cloud Run
         run: |
+          # Deploy the latest image version
           gcloud run deploy notely \
-            --image us-central1-docker.pkg.dev/notely-480916/notely-ar-repo/notely-img:1.0 \
+            --image us-central1-docker.pkg.dev/notely-480916/notely-ar-repo/notely-img:latest \
             --region us-central1 \
             --allow-unauthenticated \
             --project notely-480916 \
